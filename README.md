@@ -17,7 +17,7 @@ getFilesList <- function(git, tag = ''){
   return(flist[grep(tag, flist)])
 }
 
-git <- getRepo('fredcommo/IC50')
+git <- getRepo('fredcommo/GeneRequest')
 Rlist <- getFilesList(git, '.R')
 
 # source GeneRequest.v6.4
