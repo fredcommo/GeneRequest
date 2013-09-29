@@ -8,50 +8,37 @@ GeneRequest.v6.4 <- function(geneId, DB = "gene", HG = hg19, bySymb = TRUE, verb
   require(XML)
   cumLen <- cumsum(as.numeric(HG$length))
   cumLen <- c(0, cumLen[1:23])
-
-  geneId <- as.character(toupper(geneId))
 	Sys.sleep(0.01)
-#  Total = length(geneList)
-	# pb <- tkProgressBar(title = "The R'atWork BaBar", min = 0, max = Total, width = 500)
 
-	# cum.len <- cumsum(hg19.info$length)
-
-#   geneTable <- c()
-# 	for(i in 1:Total){
-
-		# launch & increment the pBar
-	  # setTkProgressBar(pb, i, label = paste("Take it easy... I'm workin' for U... :p ", round(i/Total*100, 2), "% done"))
-
-    entrezId <- NA
-    Symbol <- "Not found"
-    out <- .default()
-    ids <- geneId
+  entrezId <- NA
+  Symbol <- "Not found"
+  out <- .default()
+  ids <- geneId
     
-	  k = 1
-    if(bySymb){
-      query <- geneId
-      ids <- unlist(gsearch(paste0(query, "%5Bsymbol%5D%20homo%20sapiens"), DB = DB, kTries = 10)) #homo sapiens
-		  if(is.null(ids) & verbose) cat("\n ***", query, "... Can't find this guy: Stop kidding *** !\n\n")
+  if(bySymb){
+    query <- geneId
+    ids <- unlist(gsearch(paste0(toupper(query), "%5Bsymbol%5D%20homo%20sapiens"), DB = DB, kTries = 10)) #homo sapiens
+		if(is.null(ids) & verbose) cat("\n ***", query, "... Can't find this guy: Stop kidding *** !\n\n")
+    }
+  if(!is.null(ids)){
+    if(verbose) cat(query, "found:", length(ids), "ids...\t")
+  	j = 1
+	  Id <- ids[j]
+	  geneSummary <- unlist(gsummary(Id, DB = DB, kTries = 10))					#homo sapiens
+	  if(length(ids)>1)
+		  while (!.checkSummary(query, geneSummary, cumLen) & j < length(ids)){
+        j = j + 1
+				Id <- ids[j]
+				geneSummary <- unlist(gsummary(Id, DB = DB, kTries = 10))			#homo sapiens
+				}
+    if(.checkSummary(query, geneSummary, cumLen)){
+      out <- .getSummary(geneSummary, cumLen)
+      entrezId <- Id
       }
-    if(!is.null(ids)){
-      	if(verbose) cat(query, "found:", length(ids), "ids...\t")
-  		  j = 1
-	  	  Id <- ids[j]
-	  	  geneSummary <- unlist(gsummary(Id, DB = DB, kTries = 10))					#homo sapiens
-	  	  if(length(ids)>1)
-		  	  while (!.checkSummary(query, geneSummary, cumLen) & j < length(ids)){
-			  	  j = j + 1
-				    Id <- ids[j]
-				    geneSummary <- unlist(gsummary(Id, DB = DB, kTries = 10))			#homo sapiens
-				    }
-        if(.checkSummary(query, geneSummary, cumLen)){
-          out <- .getSummary(geneSummary, cumLen)
-          entrezId <- Id
-          }
-        if(verbose) cat('Done.\n')
-  		  }
+    if(verbose) cat('Done.\n')
+  	}
     options(ow)
-		return(cbind(query = query, as.data.frame(out), entrezgeneId = entrezId))
+	return(c("query" = query, out, "entrezgeneId" = as.numeric(entrezId)))
 }
 
 ##################################
