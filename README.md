@@ -2,15 +2,17 @@
 # If not installed yet
 install.packages("devtools")
 install_github("rGithubClient", "brian_bot")
+source('http://depot.sagebase.org/CRAN.R')
+pkgInstall("synapseClient")
 ```
 
 ```
 require("devtools")
 require("rGithubClient")
-require(RCurl)
-require(foreign)
-url <- "https://raw.github.com/fredcommo/GeneRequest/master/human.chrom.info.hg19.FC.txt"
-hg19 <- read.csv(textConnection(getURL(url)), header = T, sep = '\t')
+require(synapseClient)
+
+# Use the synapseLogin() function: synapseLogin("me@myemail.com", "mypwd")
+# or visit https://www.synapse.org/#!Synapse:syn1834618/WIKI/56017 to configure your .Rprofile
 
 getFilesList <- function(git, tag = ''){
   flist <- git@tree$path
@@ -23,7 +25,7 @@ Rlist <- getFilesList(git, '.R')
 # source GeneRequest.v6.4
 sourceRepoFile(git, Rlist[5])
 
-geneList <- c("egfr", "fgfr1", "greenBanana")
+geneList <- c("egfr", "fgfr1", "IwantRedHair")
 myList <- lapply(geneList, function(gene) GeneRequest.v6.4(gene))
 as.data.frame(do.call(rbind, myList))
 ```
