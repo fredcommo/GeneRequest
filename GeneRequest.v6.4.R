@@ -1,9 +1,15 @@
 #################################################################################################
 
-GeneRequest.v6.4 <- function(geneId, DB = "gene", HG = hg19, bySymb = TRUE, verbose = TRUE){
+GeneRequest.v6.4 <- function(geneId, DB = "gene", bySymb = TRUE, verbose = TRUE){
   ow <- options("warn")
   options(warn = -1)
   require(XML)
+  if(!exists("HG")){
+    require(synapseClient)
+    # use hg19 chromosome size here.
+    ent <- synGet("syn2141399")
+    HG <- read.csv(ent@filePath, header = TRUE, sep = "\t")
+  }
   cumLen <- cumsum(as.numeric(HG$length))
   cumLen <- c(0, cumLen[1:23])
 	Sys.sleep(0.01)
@@ -36,7 +42,7 @@ GeneRequest.v6.4 <- function(geneId, DB = "gene", HG = hg19, bySymb = TRUE, verb
     if(verbose) cat('Done.\n')
   	}
     options(ow)
-	return(c("query" = query, out, "entrezgeneId" = as.numeric(entrezId)))
+	return(cbind("query" = query, as.data.frame(out), "entrezgeneId" = as.numeric(entrezId)))
 }
 
 ##################################
