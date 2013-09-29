@@ -1,7 +1,5 @@
 #################################################################################################
 
-# Exemple liste SAFIR
-
 GeneRequest.v6.4 <- function(geneId, DB = "gene", HG = hg19, bySymb = TRUE, verbose = TRUE){
   ow <- options("warn")
   options(warn = -1)
