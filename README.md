@@ -29,5 +29,7 @@ as.data.frame(do.call(rbind, myList))
 ```
 
 ** version v6.3 takes a list of genes as argument and use a for loop.**
+
 ** version v6.4 takes only one gene at a time - combined with lapply(), this version works faster.**
+
 ** version 7 searches in a table built by one of the versions above. I have to rename this guy!**
