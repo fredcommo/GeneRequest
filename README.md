@@ -2,15 +2,15 @@
 ```
 # If not installed yet
 install.packages("devtools")
-install_github("rGithubClient", "brian-bot")
 source('http://depot.sagebase.org/CRAN.R')
 pkgInstall("synapseClient")
 ```
 
 ```
 require("devtools")
-require("rGithubClient")
 require(synapseClient)
+install_github("rGithubClient", "brian-bot")
+require("rGithubClient")
 ```
 
 Use the synapseLogin() function to log into synapse:
