@@ -2,7 +2,7 @@
 ```
 # If not installed yet
 install.packages("devtools")
-install_github("rGithubClient", "brian_bot")
+install_github("rGithubClient", "brian-bot")
 source('http://depot.sagebase.org/CRAN.R')
 pkgInstall("synapseClient")
 ```
