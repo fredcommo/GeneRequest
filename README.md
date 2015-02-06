@@ -1,19 +1,24 @@
+[synapse - getting started]:https://www.synapse.org/#!Synapse:syn1834618/WIKI/56017
 ```
 # If not installed yet
 install.packages("devtools")
-install_github("rGithubClient", "brian_bot")
 source('http://depot.sagebase.org/CRAN.R')
 pkgInstall("synapseClient")
 ```
 
 ```
 require("devtools")
-require("rGithubClient")
 require(synapseClient)
+install_github("rGithubClient", "brian-bot")
+require("rGithubClient")
+```
 
-# Use the synapseLogin() function: synapseLogin("me@myemail.com", "mypwd")
-# or visit https://www.synapse.org/#!Synapse:syn1834618/WIKI/56017 to configure your .Rprofile
+Use the synapseLogin() function to log into synapse:
+```synapseLogin("me@myemail.com", "mypwd")```  
+or visit  [synapse - getting started] to configure your .Rprofile for an automatic synapse login.
 
+
+```
 getFilesList <- function(git, tag = ''){
   flist <- git@tree$path
   return(flist[grep(tag, flist)])
