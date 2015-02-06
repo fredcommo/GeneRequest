@@ -22,24 +22,24 @@ GeneRequest.v6.4 <- function(geneId, DB = "gene", bySymb = TRUE, verbose = TRUE)
   ids <- geneId
     
   if(bySymb){
-    query <- geneId
+    query <- toupper(geneId)
     ids <- unlist(gsearch(paste0(toupper(query), "%5Bsymbol%5D%20homo%20sapiens"), DB = DB, kTries = 10)) #homo sapiens
 		if(is.null(ids) & verbose) cat("\n ***", query, "... Can't find this guy: Stop kidding *** !\n\n")
     }
   if(!is.null(ids)){
     if(verbose) cat(query, "found:", length(ids), "ids...\t")
   	j = 1
-	  Id <- ids[j]
-	  geneSummary <- unlist(gsummary(Id, DB = DB, kTries = 10))					#homo sapiens
+	  id <- ids[j]
+	  geneSummary <- unlist(gsummary(id, DB = DB, kTries = 10))					#homo sapiens
 	  if(length(ids)>1)
 		  while (!.checkSummary(query, geneSummary, cumLen) & j < length(ids)){
         j = j + 1
-				Id <- ids[j]
-				geneSummary <- unlist(gsummary(Id, DB = DB, kTries = 10))			#homo sapiens
+				id <- ids[j]
+				geneSummary <- unlist(gsummary(id, DB = DB, kTries = 10))			#homo sapiens
 				}
     if(.checkSummary(query, geneSummary, cumLen)){
       out <- .getSummary(geneSummary, cumLen)
-      entrezId <- Id
+      entrezId <- id
       }
     if(verbose) cat('Done.\n')
   	}
@@ -125,8 +125,9 @@ gsummary <- function (id, DB, kTries){
 #  if(!bySymb) cat(as.character(Id), "found as", Symbol, "\n")
   return(list(symbol = symbol,
               fullName = geneSummary[2],
-              org = geneSummary[3],
+              org = geneSummary[29],
               verifId = as.numeric(geneSummary[5]),
+              Official = geneSummary[13]=="Official",
               chr = chr,
               cytoband = geneSummary[8],
               alias = geneSummary[9],

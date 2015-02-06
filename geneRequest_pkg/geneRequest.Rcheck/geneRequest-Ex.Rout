@@ -1,0 +1,221 @@
+
+R version 3.1.1 (2014-07-10) -- "Sock it to Me"
+Copyright (C) 2014 The R Foundation for Statistical Computing
+Platform: x86_64-apple-darwin13.1.0 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "geneRequest"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('geneRequest')
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("geneRequest-package")
+> ### * geneRequest-package
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: geneRequest-package
+> ### Title: NCBI Query for Gene Annotation.
+> ### Aliases: geneRequest-package
+> 
+> ### ** Examples
+> 
+> geneRequest("ercc1")
+ERCC1 found: 1 id(s)...	Done.
+                                          query 
+                                        "ERCC1" 
+                                         symbol 
+                                        "ERCC1" 
+                                       fullName 
+"excision repair cross-complementation group 1" 
+                                          alias 
+                           "COFS4, RAD10, UV20" 
+                                       organism 
+                                 "Homo sapiens" 
+                                        verifId 
+                                            "0" 
+                                         status 
+                                     "Official" 
+                                            chr 
+                                           "19" 
+                                       cytoband 
+                                     "19q13.32" 
+                                      exonCount 
+                                           "11" 
+                                     accVersion 
+                                 "NC_000019.10" 
+                                       chrStart 
+                                     "45478836" 
+                                         chrEnd 
+                                     "45407332" 
+                                     genomStart 
+                                   "2704923158" 
+                                       genomEnd 
+                                   "2704851654" 
+                                   entrezgeneId 
+                                         "2067" 
+> geneRequest(2067)
+
+*** Can't find "2067". Stop kidding! ***
+NULL
+> 
+> 
+> 
+> cleanEx()
+> nameEx("geneRequest")
+> ### * geneRequest
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: geneRequest
+> ### Title: Gene annotations via Web Queries
+> ### Aliases: geneRequest
+> 
+> ### ** Examples
+> 
+> # Simple query using symbol or entrezgeneId
+> geneRequest("ercc1")
+ERCC1 found: 1 id(s)...	Done.
+                                          query 
+                                        "ERCC1" 
+                                         symbol 
+                                        "ERCC1" 
+                                       fullName 
+"excision repair cross-complementation group 1" 
+                                          alias 
+                           "COFS4, RAD10, UV20" 
+                                       organism 
+                                 "Homo sapiens" 
+                                        verifId 
+                                            "0" 
+                                         status 
+                                     "Official" 
+                                            chr 
+                                           "19" 
+                                       cytoband 
+                                     "19q13.32" 
+                                      exonCount 
+                                           "11" 
+                                     accVersion 
+                                 "NC_000019.10" 
+                                       chrStart 
+                                     "45478836" 
+                                         chrEnd 
+                                     "45407332" 
+                                     genomStart 
+                                   "2704923158" 
+                                       genomEnd 
+                                   "2704851654" 
+                                   entrezgeneId 
+                                         "2067" 
+> geneRequest(2067, bySymb=FALSE)
+                                          query 
+                                         "2067" 
+                                         symbol 
+                                        "ERCC1" 
+                                       fullName 
+"excision repair cross-complementation group 1" 
+                                          alias 
+                           "COFS4, RAD10, UV20" 
+                                       organism 
+                                 "Homo sapiens" 
+                                        verifId 
+                                            "0" 
+                                         status 
+                                     "Official" 
+                                            chr 
+                                           "19" 
+                                       cytoband 
+                                     "19q13.32" 
+                                      exonCount 
+                                           "11" 
+                                     accVersion 
+                                 "NC_000019.10" 
+                                       chrStart 
+                                     "45478836" 
+                                         chrEnd 
+                                     "45407332" 
+                                     genomStart 
+                                   "2704923158" 
+                                       genomEnd 
+                                   "2704851654" 
+                                   entrezgeneId 
+                                         "2067" 
+> 
+> # Multiple queries
+> ids <- c("egfr", "erbb2", "fgfr1")
+> annots <- lapply(ids, function(id) geneRequest(id) )
+EGFR found: 1 id(s)...	Done.
+ERBB2 found: 1 id(s)...	Done.
+FGFR1 found: 1 id(s)...	Done.
+> annots <- do.call(rbind, annots)
+> annots
+     query   symbol  fullName                             
+[1,] "EGFR"  "EGFR"  "epidermal growth factor receptor"   
+[2,] "ERBB2" "ERBB2" "erb-b2 receptor tyrosine kinase 2"  
+[3,] "FGFR1" "FGFR1" "fibroblast growth factor receptor 1"
+     alias                                                                                               
+[1,] "ERBB, ERBB1, HER1, NISBD2, PIG61, mENA"                                                            
+[2,] "CD340, HER-2, HER-2/neu, HER2, MLN 19, NEU, NGL, TKR1"                                             
+[3,] "BFGFR, CD331, CEK, FGFBR, FGFR-1, FLG, FLT-2, FLT2, HBGFR, HH2, HRTFDS, KAL2, N-SAM, OGD, bFGF-R-1"
+     organism       verifId status     chr  cytoband         exonCount
+[1,] "Homo sapiens" "0"     "Official" "7"  "7p12"           "30"     
+[2,] "Homo sapiens" "0"     "Official" "17" "17q12"          "33"     
+[3,] "Homo sapiens" "0"     "Official" "8"  "8p11.23-p11.22" "22"     
+     accVersion     chrStart   chrEnd     genomStart   genomEnd    
+[1,] "NC_000007.14" "55019031" "55207337" "1288676058" "1288864364"
+[2,] "NC_000017.11" "39688139" "39728661" "2539860003" "2539900525"
+[3,] "NC_000008.11" "38468833" "38411137" "1431264523" "1431206827"
+     entrezgeneId
+[1,] "1956"      
+[2,] "2064"      
+[3,] "2260"      
+> 
+> 
+> 
+> cleanEx()
+> nameEx("hg19")
+> ### * hg19
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: hg19
+> ### Title: HG19 chromosomes length
+> ### Aliases: hg19
+> ### Keywords: datasets
+> 
+> ### ** Examples
+> 
+>   load(system.file("extdata", "hg19.rda", package="geneRequest"))
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  0.355 0.011 5.62 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')
