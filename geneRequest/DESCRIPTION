@@ -1,0 +1,10 @@
+Package: geneRequest
+Type: Package
+Title: NCBI Query for Gene Annotation.
+Version: 1.0
+Date: 2015-02-06
+Author: Frederic Commo
+Maintainer: Frederic Commo <frederic.commo@gustaveroussy.fr>
+Description: Retrieve gene annotations from NCBI, given a HUGO symbol or an entrezgene id, using web requests.
+License: GPL
+Imports: XML
